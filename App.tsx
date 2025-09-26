@@ -44,13 +44,22 @@ const AppContent: React.FC = () => {
         const apiUrl = process.env.NODE_ENV === 'production' 
           ? '/api/cases' 
           : 'http://localhost:4000/api/cases';
+        console.log('Fetching cases from:', apiUrl);
         const response = await fetch(apiUrl);
+        console.log('Response status:', response.status);
         if (response.ok) {
           const data = await response.json();
+          console.log('Cases data:', data);
           setCasesData(data);
+        } else {
+          console.error('Failed to fetch cases - HTTP', response.status);
+          // Use fallback data if API fails
+          setCasesData([]);
         }
       } catch (error) {
         console.error('Failed to fetch cases:', error);
+        // Use fallback data if API fails
+        setCasesData([]);
       }
     };
 

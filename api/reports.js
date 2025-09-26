@@ -1,5 +1,11 @@
 // Vercel serverless function for reports API
-import { supabase } from '../src/services/supabase.service.js';
+import { createClient } from '@supabase/supabase-js';
+
+// Initialize Supabase client
+const supabaseUrl = 'https://fyxtgfgnrqweddwrlzkr.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ5eHRnZmducnF3ZWRkd3JsemtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4NjI0MzEsImV4cCI6MjA3NDQzODQzMX0.-8FcZtDYAnFVT7AOoiQGLkWfJXobtci7-22SZ2EdHwg';
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default async function handler(req, res) {
   // Enable CORS
@@ -12,6 +18,8 @@ export default async function handler(req, res) {
     res.status(200).end();
     return;
   }
+
+  console.log('Reports API called:', req.method, req.url);
 
   try {
     if (req.method === 'GET') {
