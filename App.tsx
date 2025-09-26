@@ -42,8 +42,8 @@ const AppContent: React.FC = () => {
     const fetchCases = async () => {
       try {
         const apiUrl = process.env.NODE_ENV === 'production' 
-          ? '/api/cases' 
-          : 'http://localhost:4000/api/cases';
+          ? '/api/cases'
+          : '/api/cases';
         console.log('Fetching cases from:', apiUrl);
         const response = await fetch(apiUrl);
         console.log('Response status:', response.status);
@@ -52,12 +52,20 @@ const AppContent: React.FC = () => {
           console.log('Cases data:', data);
           setCasesData(data);
         } else {
-          console.error('Failed to fetch cases - HTTP', response.status);
+          const errorText = await response.text();
+          console.error('Failed to fetch cases - HTTP', response.status, errorText);
+          console.error('API URL:', apiUrl);
           // Use fallback data if API fails
           setCasesData([]);
         }
       } catch (error) {
         console.error('Failed to fetch cases:', error);
+        console.error('Error details:', {
+          message: error instanceof Error ? error.message : 'Unknown error',
+          name: error instanceof Error ? error.name : 'Unknown',
+          stack: error instanceof Error ? error.stack : 'No stack trace'
+        });
+        console.error('API URL used:', apiUrl);
         // Use fallback data if API fails
         setCasesData([]);
       }

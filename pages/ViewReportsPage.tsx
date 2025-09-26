@@ -78,8 +78,8 @@ const ViewReportsPage: React.FC<ViewReportsPageProps> = ({ onClose }) => {
         setIsLoading(true);
         setError(null);
         const apiUrl = process.env.NODE_ENV === 'production' 
-          ? '/api/reports' 
-          : 'http://localhost:4000/api/reports';
+          ? '/api/reports'
+          : '/api/reports';
         const response = await fetch(apiUrl);
         if (!response.ok) throw new Error('Failed to fetch reports');
         const data = await response.json();
