@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "lib": ["es2020", "dom"]
+  },
+  "include": [
+    "src/index.ts",
+    "src/config/**/*",
+    "src/controllers/**/*",
+    "src/routes/**/*",
+    "src/services/**/*",
+    "src/types/database.types.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "*.tsx",
+    "components",
+    "pages",
+    "src/contexts/**/*"
+  ]
+}

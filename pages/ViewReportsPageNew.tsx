@@ -5,6 +5,7 @@ import UserIcon from '../components/icons/UserIcon';
 import MapPinIcon from '../components/icons/MapPinIcon';
 import ShareIcon from '../components/icons/ShareIcon';
 import ChevronIcon from '../components/icons/ChevronIcon';
+import PlusIcon from '../components/icons/PlusIcon';
 
 interface Report {
   id: number;

@@ -1,4 +1,5 @@
 import { supabase } from './supabase.service';
+import { Database } from '../types/database.types';
 
 export interface User {
   id: string;
@@ -38,8 +39,8 @@ export class AuthService {
       }
 
       // 2. Create user profile in our users table
-      const { data: userData, error: userError } = await supabase
-        .from('users')
+      const { data: userData, error: userError } = await (supabase
+        .from('users') as any)
         .insert({
           id: authData.user.id,
           email: authData.user.email!,
@@ -191,8 +192,12 @@ export class AuthService {
   // Reset password
   static async resetPassword(email: string): Promise<AuthResponse> {
     try {
+      const redirectUrl = typeof window !== 'undefined' 
+        ? `${window.location.origin}/reset-password`
+        : 'http://localhost:3000/reset-password'; // fallback for server-side
+        
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`,
+        redirectTo: redirectUrl,
       });
 
       if (error) {
