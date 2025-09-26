@@ -103,8 +103,11 @@ const CasesGrid: React.FC<CasesGridProps> = ({ onViewCase }) => {
       try {
         setIsLoading(true);
         setError(null);
-        // Ensure you have the backend server running on port 4000
-        const response = await fetch('http://localhost:4000/api/cases');
+        // Use dynamic API URL based on environment
+        const apiUrl = process.env.NODE_ENV === 'production' 
+          ? '/api/cases' 
+          : 'http://localhost:4000/api/cases';
+        const response = await fetch(apiUrl);
         if (!response.ok) {
           throw new Error('Failed to fetch cases from the server.');
         }

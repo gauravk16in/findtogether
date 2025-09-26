@@ -41,7 +41,10 @@ const AppContent: React.FC = () => {
   useEffect(() => {
     const fetchCases = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/cases');
+        const apiUrl = process.env.NODE_ENV === 'production' 
+          ? '/api/cases' 
+          : 'http://localhost:4000/api/cases';
+        const response = await fetch(apiUrl);
         if (response.ok) {
           const data = await response.json();
           setCasesData(data);
