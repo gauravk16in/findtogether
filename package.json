@@ -8,6 +8,7 @@
     "dev:frontend": "vite",
     "dev:both": "concurrently \"npm run dev\" \"npm run dev:frontend\"",
     "build": "vite build",
+    "vercel-build": "vite build",
     "build:backend": "tsc --project tsconfig.node.json",
     "preview": "vite preview",
     "start": "node dist/index.js",
