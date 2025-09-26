@@ -89,7 +89,35 @@ const InfoBlock: React.FC<{ title: string; children: React.ReactNode; className?
 
 const GoogleMap: React.FC<{ location: string; className?: string }> = ({ location, className = '' }) => {
   const encodedLocation = encodeURIComponent(location);
-  const mapUrl = `https://www.google.com/maps/embed/v1/place?key=YOUR_GOOGLE_MAPS_API_KEY&q=${encodedLocation}`;
+  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+  
+  // If no API key, show fallback
+  if (!apiKey || apiKey === 'YOUR_GOOGLE_MAPS_API_KEY') {
+    return (
+      <div className={`bg-gray-100 rounded-lg overflow-hidden ${className} flex items-center justify-center p-6`}>
+        <div className="text-center">
+          <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center mx-auto mb-3">
+            <svg className="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          <p className="text-gray-600 font-medium">{location}</p>
+          <p className="text-xs text-gray-500 mt-1">Location: {location}</p>
+          <a 
+            href={`https://www.google.com/maps/search/?api=1&query=${encodedLocation}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block mt-2 px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600 transition-colors"
+          >
+            View on Google Maps
+          </a>
+        </div>
+      </div>
+    );
+  }
+  
+  const mapUrl = `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${encodedLocation}`;
   
   return (
     <div className={`bg-gray-200 rounded-lg overflow-hidden ${className}`}>

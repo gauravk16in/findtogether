@@ -62,8 +62,15 @@ const statusStyles: Record<string, string> = {
 };
 
 const getGoogleMapEmbedUrl = (location: string) => {
-  // For now, use a basic embedded map until you provide the API key
-  return `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.1234567890123!2d-74.0059413!3d40.7589181!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z${encodeURIComponent(location)}!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus`;
+  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+  
+  if (!apiKey || apiKey === 'YOUR_GOOGLE_MAPS_API_KEY') {
+    // Return a basic maps search URL that works without API key
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`;
+  }
+  
+  // Use proper embed URL with API key
+  return `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${encodeURIComponent(location)}`;
 };
 
 const ViewReportsPage: React.FC<ViewReportsPageProps> = ({ onClose }) => {
