@@ -105,8 +105,8 @@ const CasesGrid: React.FC<CasesGridProps> = ({ onViewCase }) => {
         setError(null);
         // Use dynamic API URL based on environment
         const apiUrl = process.env.NODE_ENV === 'production' 
-          ? '/api/cases'
-          : '/api/cases';
+          ? '/api/cases' 
+          : 'http://localhost:4000/api/cases';
         const response = await fetch(apiUrl);
         if (!response.ok) {
           throw new Error('Failed to fetch cases from the server.');

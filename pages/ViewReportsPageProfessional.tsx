@@ -8,6 +8,9 @@ import ShareIcon from '../components/icons/ShareIcon';
 // Google Maps API key from environment variables
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'YOUR_GOOGLE_MAPS_API_KEY';
 
+// Check if Google Maps API is available
+const isGoogleMapsAvailable = GOOGLE_MAPS_API_KEY && GOOGLE_MAPS_API_KEY !== 'YOUR_GOOGLE_MAPS_API_KEY';
+
 interface Report {
   id: number;
   case_id: number;
@@ -534,8 +537,8 @@ const ViewReportsPage: React.FC<ViewReportsPageProps> = ({ onClose }) => {
         setError(null);
         
         const apiUrl = process.env.NODE_ENV === 'production' 
-          ? '/api/reports'
-          : '/api/reports';
+          ? '/api/reports' 
+          : 'http://localhost:4000/api/reports';
         const response = await fetch(apiUrl);
         if (!response.ok) {
           throw new Error('Failed to fetch reports');
