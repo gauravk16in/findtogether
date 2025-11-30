@@ -2,8 +2,12 @@
 import { createClient } from '@supabase/supabase-js';
 
 // Initialize Supabase client
-const supabaseUrl = 'https://fyxtgfgnrqweddwrlzkr.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ5eHRnZmducnF3ZWRkd3JsemtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4NjI0MzEsImV4cCI6MjA3NDQzODQzMX0.-8FcZtDYAnFVT7AOoiQGLkWfJXobtci7-22SZ2EdHwg';
+const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  console.error('Missing Supabase credentials in API');
+}
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
