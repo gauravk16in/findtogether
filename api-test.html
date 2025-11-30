@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test - FindTogether</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .test-result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; border: 1px solid #f5c6cb; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .info { background-color: #d1ecf1; border: 1px solid #bee5eb; padding: 15px; margin: 10px 0; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>FindTogether API Test</h1>
+    <p>Test the API endpoints to ensure they're working correctly after deployment fixes.</p>
+    
+    <div class="info">
+        <h3>🔧 Recent Fixes Applied:</h3>
+        <ul>
+            <li>✅ Updated all API calls to use relative paths (/api/...)</li>
+            <li>✅ Enhanced CORS configuration in API endpoints</li>
+            <li>✅ Improved error handling and logging</li>
+            <li>✅ Updated Vercel configuration for better API routing</li>
+        </ul>
+    </div>
+    
+    <div id="results"></div>
+    
+    <button onclick="testAPI()">Test All APIs</button>
+    <button onclick="testEndpoint('/api/test')">Test API Health</button>
+    <button onclick="testEndpoint('/api/cases')">Test Cases API</button>
+    <button onclick="testEndpoint('/api/reports')">Test Reports API</button>
+    
+    <script>
+        async function testAPI() {
+            await testEndpoint('/api/test');
+            await testEndpoint('/api/cases');
+            await testEndpoint('/api/reports');
+        }
+        
+        async function testEndpoint(endpoint) {
+            const testName = endpoint.replace('/api/', '').toUpperCase() + ' API';
+            
+            try {
+                console.log(`Testing ${endpoint}...`);
+                const response = await fetch(endpoint);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`HTTP ${response.status}: ${errorText}`);
+                }
+                
+                const data = await response.json();
+                displayResult(testName, true, { 
+                    status: response.status,
+                    data: data,
+                    timestamp: new Date().toISOString()
+                });
+            } catch (error) {
+                console.error(`Error testing ${endpoint}:`, error);
+                displayResult(testName, false, { 
+                    error: error.message,
+                    timestamp: new Date().toISOString(),
+                    endpoint: endpoint
+                });
+            }
+        }
+        
+        function displayResult(testName, success, data) {
+            const resultsDiv = document.getElementById('results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result ${success ? 'success' : 'error'}`;
+            resultDiv.innerHTML = `
+                <h3>${testName}: ${success ? '✅ PASS' : '❌ FAIL'}</h3>
+                <pre>${JSON.stringify(data, null, 2)}</pre>
+            `;
+            resultsDiv.appendChild(resultDiv);
+        }
+        
+        // Auto-test on page load
+        window.addEventListener('load', () => {
+            console.log('Auto-testing APIs...');
+            setTimeout(testAPI, 1000);
+        });
+    </script>
+</body>
+</html>
